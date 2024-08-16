@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agriculture Monitoring System</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: #f4f4f4;
+    }
+    
+    #app {
+      max-width: 1200px;
+      width: 100%;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background: #fff;
+      margin-top: 50px;
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    #map {
+      height: 400px;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    
+    #dashboard {
+      width: 100%;
+    }
+    
+    #crop-info {
+      font-size: 16px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>Agriculture Monitoring System</h1>
+    <div id="map"></div>
+    <div id="dashboard">
+      <h2>Data Display</h2>
+      <div id="dataDisplay"></div>
+    </div>
+  </div>
+  <script>
+    // Simulated data
+    const satelliteData = { image: 'Satellite Image Data' };
+    const weatherData = { temperature: '22°C', humidity: '60%' };
+    const soilData = { moisture: '30%', type: 'Loamy' };
+    const recommendedCrop = 'Corn';
+
+    // Update UI function
+    const updateUI = () => {
+      const dataDisplay = document.getElementById('dataDisplay');
+      
+      // Clear previous content
+      dataDisplay.innerHTML = '';
+
+      // Display Satellite Data
+      const satelliteDisplay = document.createElement('div');
+      satelliteDisplay.innerHTML = `<h3>Satellite Data</h3><pre>${JSON.stringify(satelliteData, null, 2)}</pre>`;
+      dataDisplay.appendChild(satelliteDisplay);
+
+      // Display Weather Data
+      const weatherDisplay = document.createElement('div');
+      weatherDisplay.innerHTML = `<h3>Weather Data</h3><pre>${JSON.stringify(weatherData, null, 2)}</pre>`;
+      dataDisplay.appendChild(weatherDisplay);
+
+      // Display Soil Data
+      const soilDisplay = document.createElement('div');
+      soilDisplay.innerHTML = `<h3>Soil Data</h3><pre>${JSON.stringify(soilData, null, 2)}</pre>`;
+      dataDisplay.appendChild(soilDisplay);
+
+      // Display Recommended Crop
+      const cropDisplay = document.createElement('div');
+      cropDisplay.innerHTML = `<h3>Recommended Crop</h3><pre>${recommendedCrop}</pre>`;
+      dataDisplay.appendChild(cropDisplay);
+    };
+
+    // Initialize the map
+    const map = L.map('map').setView([51.505, -0.09], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+    }).addTo(map);
+
+    const marker = L.marker([51.505, -0.09]).addTo(map)
+      .bindPopup('A selected agricultural area.')
+      .openPopup();
+
+    // Call updateUI to populate initial data
+    updateUI();
+  </script>
+</body>
+</html>
